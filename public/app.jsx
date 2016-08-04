@@ -16,18 +16,35 @@ var GreeterForm = React.createClass({
   onFormSubmit: function(e) {
     e.preventDefault();
 
+    var updates = {};
     var name = this.refs.name.value;
+    var message = this.refs.message.value;
 
     if (name.length > 0) {
       this.refs.name.value = '';
-      this.props.onNewName(name);
+      updates.name = name;
     }
+
+    if (message.length > 0) {
+      this.refs.message.value = '';
+      updates.message = message;
+    }
+
+    this.props.onNewData(updates);
   },
+  // add a text area, and placeholder attributes. give ref of message so we can access its value at on form submit.
   render: function() {
     return (
       <form onSubmit={this.onFormSubmit}>
-        <input type="text" ref="name"/>
-        <button>Set Name</button>
+        <div>
+          <input type="text" ref="name" placeholder="Enter name"/>
+        </div>
+        <div>
+          <textarea ref="message" placeholder="Enter message"></textarea>
+        </div>
+        <div>
+          <button>Submit</button>
+        </div>
       </form>
     );
   }
@@ -42,22 +59,25 @@ var Greeter = React.createClass({   //common create method
   },
   getInitialState: function() {
     return {
-      name: this.props.name
+      name: this.props.name,
+      //add message here, getting default message from the props
+      message: this.props.message
     }
   },
-  handleNewName: function(name) {
-    this.setState({
-      name: name
-    });
+  //expect updates object. since object has all attributes, you can pass it as the one and only argument to set state
+  handleNewData: function(updates) {
+    this.setState(updates);
   },
   render: function() {
     var name = this.state.name;
-    var message = this.props.message;
+    // var message = this.props.message;
+    // change this to use the state. so as we use state, the greeter component renders with a new message.
+    var message = this.state.message;
 
     return (                        //return only ONE root element
       <div>
         <GreeterMessage name={name} message={message}/>
-        <GreeterForm onNewName={this.handleNewName}/>
+        <GreeterForm onNewData={this.handleNewData}/>
       </div>
     );
 
