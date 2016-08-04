@@ -5,15 +5,28 @@ var Greeter = React.createClass({   //common create method
       message: 'This is a default message'
     };
   },
+  getInitialState: function() {
+    return {
+      name: this.props.name
+    }
+  },
   onButtonClick: function(e) {
     e.preventDefault();             //prevents form from submitting and causing page refresh
 
-    var name = this.refs.name.value;
+    var nameRef = this.refs.name;
+    var name = nameRef.value;
+    nameRef.value = '';             //clears the box after updating value
 
-    alert(name);
+    // if no string to update, it won't change the value
+    if (typeof name === 'string' && name.length > 0) {
+      this.setState({
+        name: name
+      });
+    }
+    // alert(name);
   },
   render: function() {
-    var name = this.props.name;
+    var name = this.state.name;
     var message = this.props.message;
 
     return (                        //return only ONE root element
