@@ -1,3 +1,4 @@
+//GreeterMessage, GreeterForm, Greeter are components
 var GreeterMessage = React.createClass({
   render: function() {
     var name = this.props.name;
