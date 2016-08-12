@@ -1,3 +1,6 @@
+var React = require('react');
+var ReactDOM = require('react-dom');
+
 //GreeterMessage, GreeterForm, Greeter are components
 var GreeterMessage = React.createClass({
   render: function() {
