@@ -48,21 +48,9 @@
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var Greeter = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./components/Greeter\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
-
-	//GreeterMessage, GreeterForm, Greeter are components
-
-
-	// return React.createElement(    //Same way to do the above(JSX), but a less efficient way.
-	//   'h1',
-	//   null,
-	//   'Hello React.createElement'
-	//   )
-
+	var Greeter = __webpack_require__(159);
 
 	var firstName = 'Stacey';
-	// var randomMessage = 'This is a random message prop';
-
 
 	ReactDOM.render( //common DOM method
 	React.createElement(Greeter, { name: firstName }), //pass this to render
@@ -19738,6 +19726,152 @@
 
 	module.exports = __webpack_require__(3);
 
+
+/***/ },
+/* 159 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var GreeterMessage = __webpack_require__(160);
+	var GreeterForm = __webpack_require__(161);
+
+	var Greeter = React.createClass({
+	  displayName: 'Greeter',
+	  //common create method
+	  getDefaultProps: function getDefaultProps() {
+	    //default prop, if the data wasn't provided
+	    return {
+	      name: 'React',
+	      message: 'This is a default message'
+	    };
+	  },
+	  getInitialState: function getInitialState() {
+	    return {
+	      name: this.props.name,
+	      //add message here, getting default message from the props
+	      message: this.props.message
+	    };
+	  },
+	  //expect updates object. since object has all attributes, you can pass it as the one and only argument to set state
+	  handleNewData: function handleNewData(updates) {
+	    this.setState(updates);
+	  },
+	  render: function render() {
+	    var name = this.state.name;
+	    // var message = this.props.message;
+	    // change this to use the state. so as we use state, the greeter component renders with a new message.
+	    var message = this.state.message;
+
+	    return (//return only ONE root element
+	      React.createElement(
+	        'div',
+	        null,
+	        React.createElement(GreeterMessage, { name: name, message: message }),
+	        React.createElement(GreeterForm, { onNewData: this.handleNewData })
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Greeter;
+
+/***/ },
+/* 160 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var GreeterMessage = React.createClass({
+	  displayName: 'GreeterMessage',
+
+	  render: function render() {
+	    var name = this.props.name;
+	    var message = this.props.message;
+
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Hello ',
+	        name,
+	        '!'
+	      ),
+	      React.createElement(
+	        'p',
+	        null,
+	        message
+	      )
+	    );
+	  }
+	});
+
+	module.exports = GreeterMessage;
+
+/***/ },
+/* 161 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var GreeterForm = React.createClass({
+	  displayName: 'GreeterForm',
+
+	  onFormSubmit: function onFormSubmit(e) {
+	    e.preventDefault();
+
+	    var updates = {};
+	    var name = this.refs.name.value;
+	    var message = this.refs.message.value;
+
+	    if (name.length > 0) {
+	      this.refs.name.value = '';
+	      updates.name = name;
+	    }
+
+	    if (message.length > 0) {
+	      this.refs.message.value = '';
+	      updates.message = message;
+	    }
+
+	    this.props.onNewData(updates);
+	  },
+	  // add a text area, and placeholder attributes. give ref of message so we can access its value at on form submit.
+	  render: function render() {
+	    return React.createElement(
+	      'form',
+	      { onSubmit: this.onFormSubmit },
+	      React.createElement(
+	        'div',
+	        null,
+	        React.createElement('input', { type: 'text', ref: 'name', placeholder: 'Enter name' })
+	      ),
+	      React.createElement(
+	        'div',
+	        null,
+	        React.createElement('textarea', { ref: 'message', placeholder: 'Enter message' })
+	      ),
+	      React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'button',
+	          null,
+	          'Submit'
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = GreeterForm;
 
 /***/ }
 /******/ ]);

@@ -5,16 +5,18 @@ module.exports = {
     filename: './public/bundle.js'
   },
   resolve: {
-    extension: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx']
   },
   module: {
-    loaders: [{
+    loaders: [
+      {
         loader: 'babel-loader',
         query: {
           presets: ['react', 'es2015']
         },
         test: /\.jsx?$/,
         exclude: /(node_modules|bower_components)/
-    }]
+      }
+    ]
   }
 };
